@@ -20,19 +20,7 @@ void enqueue(int data){
     }
 }
 
-void enqueue(int data){
-    if(rear==MAX){
-        printf("Queue is full\n");
-    }
-    else if(front ==rear==-1){
-        front=rear=0;
-        queue[rear]=data;
-    }
-    else{
-        rear++;
-        queue[rear]=data;
-    }
-}
+
 
 void dequeue(){
     if(front==-1 && rear==-1){
