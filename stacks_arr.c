@@ -41,7 +41,7 @@ void peek(){
     printf("Top element is %d\n",element);
 }
 
-int main(){
+int main() {
     push(10);
     push(20);
     push(60);
