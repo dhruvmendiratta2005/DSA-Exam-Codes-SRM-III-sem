@@ -1,6 +1,5 @@
-#include<stdio.h>
-#include<stdlib.h>
-
+#include <stdio.h>
+#include <stdlib.h>
 struct Node{
     int data;
     struct Node * next;
@@ -8,7 +7,7 @@ struct Node{
 };
 
 struct Node * createnode(int data){
-    struct Node * newNode = (struct node*)malloc(sizeof(struct Node));
+    struct Node * newNode = (struct Node *)malloc(sizeof(struct Node));
     newNode->data=data;
     newNode->next=NULL;
     newNode->prev=NULL;
@@ -17,9 +16,14 @@ struct Node * createnode(int data){
 
 void insertatstart(struct Node ** head, int data){
     struct Node * newNode = createnode(data);
-    newNode->next=(*head);
-    (*head)->prev=newNode;
-    *head=newNode;
+    if(*head==NULL){
+        *head=newNode;
+    }
+    else{
+        newNode->next=(*head);
+        (*head)->prev=newNode;
+        *head=newNode;
+    }
 }
 
 void insertatend(struct Node ** head, int data){
@@ -32,17 +36,18 @@ void insertatend(struct Node ** head, int data){
     newNode->prev=temp;
 }
 
-void insertatpos( struct Node ** head, int data, int pos){
+void insertatpos(struct Node ** head, int data, int pos){
     if(pos<1){
         printf("Invalid position");
         return;
     }
     if(pos==1){
-        insertatstart(&head, data);
+        insertatstart(head, data);
+        return;
     }
     struct Node * newNode = createnode(data);
     struct Node * temp = *head;
-    for ( int i=2; i<pos ; i++){
+    for(int i=2;i<pos;i++){
         temp=temp->next;
     }
     newNode->next=temp->next;
@@ -51,10 +56,23 @@ void insertatpos( struct Node ** head, int data, int pos){
     newNode->prev=temp;
 }
 
-//delete at start
+void traverse(struct Node* head) {
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    struct Node* temp = head;
+    while(temp!=NULL){
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
 void deleteatstart(struct Node ** head){
-    if((*head)==NULL){
+    if(*head==NULL){
         printf("List is empty");
+        return;
     }
     struct Node * temp=*head;
     *head=(*head)->next;
@@ -62,36 +80,50 @@ void deleteatstart(struct Node ** head){
     free(temp);
 }
 
-// dtlete at end
-void deleteatend(struct Node **head){
-    if((*head)==NULL){
+void deleteatend(struct Node** head){
+    if(*head==NULL){
         printf("List is empty");
+        return;
     }
-    struct Node * temp= *head;
-    while(temp->next->next !=NULL){
+    struct Node * temp=*head;
+    while(temp->next->next!=NULL){
         temp=temp->next;
     }
     free(temp->next);
     temp->next=NULL;
 }
 
-// delete at position
-void deleteatmid(struct Node ** head, int pos){
+void deleteatpos(struct Node ** head, int pos){
     if(pos<1){
         printf("Invalid position");
         return;
     }
     if(pos==1){
-        deleteatstart(&head);
+        deleteatstart(head);
         return;
     }
-    struct Node * temp1=*head;
-    struct Node * temp2=(*head)->next;
-    for ( int i =2; i<pos ;i++){
-        temp1=temp1->next;
-        temp2=temp2->next;
+    struct Node * temp = *head;
+    for(int i=2;i<pos;i++){
+        temp=temp->next;
     }
-    temp1->next=temp2->next;
-    temp2->next->prev=temp1;
-    free(temp2);
+    struct Node * temp1 = temp->next;
+    temp->next=temp1->next;
+    temp1->next->prev=temp;
+    free(temp1);
+}
+
+int main(){
+    struct Node * head = NULL;
+    insertatstart(&head, 10);
+    insertatstart(&head, 20);
+    insertatstart(&head, 30);
+    insertatend(&head, 40);
+    insertatend(&head, 50);
+    insertatpos(&head, 35, 4);
+    traverse(head);
+    deleteatstart(&head);
+    deleteatend(&head);
+    deleteatpos(&head, 3);
+    traverse(head);
+    return 0;
 }
