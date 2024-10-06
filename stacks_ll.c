@@ -7,7 +7,7 @@ struct Node{
 struct Node * top=NULL;
 
 void push(int data){
-    struct Node * newNode = (struct Node*)malloc(sizeof(struct Node));
+    struct Node * newNode=(struct Node *)malloc(sizeof(struct Node));
     newNode->data=data;
     if(top==NULL){
         newNode->next=NULL;
@@ -21,34 +21,31 @@ void push(int data){
 
 void pop(){
     if(top==NULL){
-        printf("\n Stack is EMPTY \n");
+        printf("\nStack is empty");
     }
     int element=top->data;
     struct Node * temp=top;
     top=top->next;
     free(temp);
-    printf("\nThe popped element is : %d",element);
+    printf("\nThe popped element is: %d",element);
 }
 
 void display(){
     if(top==NULL){
-        printf("\nStack Underflow");
-    }else{
-        struct Node * temp=top;
-        while(temp!=NULL){
-            printf("\n%d",temp->data);
-            temp=temp->next;
-        }
+        printf("\nStack is empty");
+    }
+    struct Node * temp= top;
+    while(temp!=NULL){
+        printf("\n%d ",temp->data);
+        temp=temp->next;
     }
 }
 void peek(){
     if(top==NULL){
         printf("\nStack is empty");
     }
-    else{
-        int element=top->data;
-        printf("\nTop Element: %d", element);
-    }
+    int element = top->data;
+    printf("The top element is: %d",element);
 }
 int main(){
     push(10);
